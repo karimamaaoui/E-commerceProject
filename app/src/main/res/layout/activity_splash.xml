@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/splash_layout"
+    tools:context=".SplashActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutSplash"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignStart="@+id/imageViewSplash"
+        android:layout_alignTop="@+id/imageViewSplash"
+        android:layout_alignEnd="@+id/imageViewSplash"
+        android:layout_alignBottom="@+id/imageViewSplash"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewSplash"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:srcCompat="@drawable/logo"
+        app:tint="@color/white"
+        android:layout_centerInParent="true"
+        />
+
+    <TextView
+        android:id="@+id/textNameApp"
+        android:layout_width="282dp"
+        android:layout_height="107dp"
+        android:layout_below="@+id/imageViewSplash"
+        android:layout_alignStart="@+id/imageViewSplash"
+        android:layout_alignEnd="@+id/imageViewSplash"
+        android:layout_marginStart="-24dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="-58dp"
+        android:text="E-COMMERCE"
+        android:textColor="#3d3d3d"
+        android:textSize="40dp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

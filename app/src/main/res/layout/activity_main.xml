@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/mainl_ayout"
+    tools:context=".MainActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.356" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.367"
+        app:srcCompat="@drawable/logo"
+        app:tint="@color/white" />
+
+
+    <TextView
+        android:id="@+id/textNameApp"
+        android:layout_width="210dp"
+        android:layout_height="47dp"
+        android:layout_below="@+id/imageView2"
+        android:layout_alignStart="@+id/imageView2"
+        android:layout_alignEnd="@+id/imageView2"
+        android:layout_marginTop="56dp"
+        android:text="E-COMMERCE"
+        android:textColor="#3d3d3d"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayout"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="242dp"
+        android:layout_height="99dp"
+        android:layout_marginTop="68dp"
+        android:textSize="16dp"
+        android:text="Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression."
+        app:layout_constraintEnd_toEndOf="@+id/textNameApp"
+        app:layout_constraintHorizontal_bias="0.531"
+        app:layout_constraintStart_toStartOf="@+id/textNameApp"
+        app:layout_constraintTop_toBottomOf="@+id/textNameApp" />
+
+    <Button
+        android:id="@+id/startbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
