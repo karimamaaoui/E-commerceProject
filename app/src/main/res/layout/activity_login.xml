@@ -75,6 +75,7 @@
                 />
             <EditText
                 android:layout_width="match_parent"
+                android:id="@+id/emailEdit"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:drawableEnd="@drawable/ic_baseline_done_24"
@@ -90,6 +91,7 @@
                 />
             <EditText
                 android:layout_width="match_parent"
+                android:id="@+id/passwordEdit"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:drawableEnd="@drawable/ic_baseline_remove_red_eye_24"
@@ -132,6 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Login"
+                android:id="@+id/loginBtn"
                 app:cornerRadius="32dp"
                 />
 

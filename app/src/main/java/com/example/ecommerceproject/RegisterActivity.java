@@ -1,22 +1,123 @@
 package com.example.ecommerceproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    EditText emailEditText,passwordEditText,usernameEditText;
+    Button buttonReg;
+    //private FirebaseAuth mAuth;
+    FirebaseDatabase database;
+    DatabaseReference reference;
+
+
+  /*  @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            Intent intent=new Intent(getApplicationContext(),HomeActivity.class);
+            startActivity(intent);
+            finish();
+
+        }
+    }*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        usernameEditText=findViewById(R.id.usernameeditview);
+        emailEditText=findViewById(R.id.emaileditview);
+        passwordEditText=findViewById(R.id.passwordeditview);
+        buttonReg=findViewById(R.id.registerBtn);
+     //   mAuth = FirebaseAuth.getInstance();
+       // Log.d("TAG", "Ceci est un message de log dans la console Android."+mAuth);
+        database=FirebaseDatabase.getInstance();
+        reference=database.getReference("users");
+
+        buttonReg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email,password,name;
+                email=emailEditText.getText().toString();
+                password=passwordEditText.getText().toString();
+                name=usernameEditText.getText().toString();
+                if (name.isEmpty()){
+                    Toast.makeText(RegisterActivity.this,"Enter username",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (email.isEmpty()){
+                    Toast.makeText(RegisterActivity.this,"Enter email",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (password.isEmpty()){
+                    Toast.makeText(RegisterActivity.this,"Enter password",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+                /*HelperClass helperClass=new HelperClass(email,name,password);
+                reference.child(name).setValue(helperClass);
+                Toast.makeText(RegisterActivity.this, "Account created.",
+                        Toast.LENGTH_SHORT).show();
+
+                Intent intent=new Intent(getApplicationContext(),HomeActivity.class);
+                startActivity(intent);
+                finish();*/
+                // add to database
+                addUserToDb(email,password,name);
+
+               /* mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Toast.makeText(RegisterActivity.this, "Account created.",
+                                            Toast.LENGTH_SHORT).show();
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w("TAG", "createUserWithEmail:failure", task.getException());
+                                    Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+                */
+
+            }
+        });
+
+
 
         TextView alreadyhaveaccountText=findViewById(R.id.alreadyhaveaccountText);
 
@@ -29,6 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
         // Set the modified SpannableString back to the donhaveaccountText TextView
         alreadyhaveaccountText.setText(spannableString);
         // Set an OnClickListener on alreadyhaveaccountText
+
         alreadyhaveaccountText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -38,5 +140,33 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
+
+    }
+
+    private void addUserToDb(String email,String password,String name){
+        // create a hashmap
+        HashMap<String,Object> usersHashmap=new HashMap<>();
+        usersHashmap.put("username",name);
+        usersHashmap.put("email",email);
+        usersHashmap.put("password",password);
+
+        String key= reference.push().getKey();
+        usersHashmap.put("key",key);
+        reference.child(key).setValue(usersHashmap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(RegisterActivity.this, "Account created.",
+                        Toast.LENGTH_SHORT).show();
+
+                Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+
     }
 }
