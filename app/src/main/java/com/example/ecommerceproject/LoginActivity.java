@@ -22,14 +22,21 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText emailTxt,passwordTxt;
     Button loginBtn;
-    FirebaseAuth mAuth;
+  //  FirebaseAuth mAuth;
+    FirebaseDatabase database;
+    DatabaseReference reference;
 
-    @Override
+  /*  @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
@@ -40,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             finish();
 
         }
-    }
+    }*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +56,10 @@ public class LoginActivity extends AppCompatActivity {
         emailTxt = findViewById(R.id.emailEdit);
         passwordTxt = findViewById(R.id.passwordEdit);
         loginBtn = findViewById(R.id.loginBtn);
-        mAuth = FirebaseAuth.getInstance();
+       // mAuth = FirebaseAuth.getInstance();
+        //create instance
+        database=FirebaseDatabase.getInstance();
+        reference=database.getReference("users");
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this,"Enter password",Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                /*
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
@@ -89,6 +99,8 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
 
+                */
+                loginUser(email,password);
 
 
             }
@@ -114,4 +126,39 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-}
+
+    private void loginUser(String email, String password) {
+        reference.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // User found in the database
+                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                        String storedPassword = userSnapshot.child("password").getValue(String.class);
+                        if (storedPassword != null && storedPassword.equals(password)) {
+                            // Password matches, authentication successful
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                        } else {
+                            // Password is wrong
+                            Toast.makeText(LoginActivity.this,"Wrong password",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } else {
+                    // User not found in the database
+                    Toast.makeText(LoginActivity.this," User not found",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle the error, if necessary
+            }
+        });
+    }
+
+
+
+
+
+    }

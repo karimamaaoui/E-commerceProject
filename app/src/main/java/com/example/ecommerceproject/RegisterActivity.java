@@ -32,23 +32,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     EditText emailEditText,passwordEditText,usernameEditText;
     Button buttonReg;
-    //private FirebaseAuth mAuth;
     FirebaseDatabase database;
     DatabaseReference reference;
 
-
-  /*  @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Intent intent=new Intent(getApplicationContext(),HomeActivity.class);
-            startActivity(intent);
-            finish();
-
-        }
-    }*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
         emailEditText=findViewById(R.id.emaileditview);
         passwordEditText=findViewById(R.id.passwordeditview);
         buttonReg=findViewById(R.id.registerBtn);
-     //   mAuth = FirebaseAuth.getInstance();
-       // Log.d("TAG", "Ceci est un message de log dans la console Android."+mAuth);
+        //create instance
         database=FirebaseDatabase.getInstance();
         reference=database.getReference("users");
 
@@ -84,35 +69,8 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
 
-                /*HelperClass helperClass=new HelperClass(email,name,password);
-                reference.child(name).setValue(helperClass);
-                Toast.makeText(RegisterActivity.this, "Account created.",
-                        Toast.LENGTH_SHORT).show();
-
-                Intent intent=new Intent(getApplicationContext(),HomeActivity.class);
-                startActivity(intent);
-                finish();*/
                 // add to database
                 addUserToDb(email,password,name);
-
-               /* mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Toast.makeText(RegisterActivity.this, "Account created.",
-                                            Toast.LENGTH_SHORT).show();
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w("TAG", "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(RegisterActivity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
-                */
 
             }
         });
