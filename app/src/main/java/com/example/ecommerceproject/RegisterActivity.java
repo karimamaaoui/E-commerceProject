@@ -3,7 +3,9 @@ package com.example.ecommerceproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ecommerceproject.services.UserService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -32,32 +35,51 @@ public class RegisterActivity extends AppCompatActivity {
 
     EditText emailEditText,passwordEditText,usernameEditText;
     Button buttonReg;
-    FirebaseDatabase database;
-    DatabaseReference reference;
+
+    FirebaseAuth mAuth;
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+       //FirebaseUser currentUser = mAuth.getCurrentUser();
+      /*  if(currentUser != null){
+            Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+            startActivity(intent);
+            finish();
+            Log.w("TAG", "currentUser FROM REGISTER LINE 47  " + currentUser);
+
+        }*/
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        usernameEditText=findViewById(R.id.usernameeditview);
         emailEditText=findViewById(R.id.emaileditview);
         passwordEditText=findViewById(R.id.passwordeditview);
+        usernameEditText=findViewById(R.id.usernameeditview);
+
         buttonReg=findViewById(R.id.registerBtn);
+
         //create instance
-        database=FirebaseDatabase.getInstance();
-        reference=database.getReference("users");
+        mAuth = FirebaseAuth.getInstance();
 
         buttonReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email,password,name;
+                String email,password,username;
                 email=emailEditText.getText().toString();
+                username=usernameEditText.getText().toString();
                 password=passwordEditText.getText().toString();
-                name=usernameEditText.getText().toString();
-                if (name.isEmpty()){
+                if (username.isEmpty()){
                     Toast.makeText(RegisterActivity.this,"Enter username",Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+
+
                 if (email.isEmpty()){
                     Toast.makeText(RegisterActivity.this,"Enter email",Toast.LENGTH_SHORT).show();
                     return;
@@ -69,9 +91,17 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
 
-                // add to database
-                addUserToDb(email,password,name);
+                // Call the addUserToDb method from UserService
+                UserService.addUserToDb(RegisterActivity.this, email, password,username);
+                SharedPreferences sharedPreferences = getSharedPreferences("logindata", Context.MODE_PRIVATE);
+                String userEmail = sharedPreferences.getString("useremail", "");
+                Log.w("TAG", "user FROM REGISTER LINE 110  " + userEmail.isEmpty());
+                if(userEmail.isEmpty()){
+                    Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+                    startActivity(intent);
+                    finish();
 
+                }
             }
         });
 
@@ -104,27 +134,4 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void addUserToDb(String email,String password,String name){
-        // create a hashmap
-        HashMap<String,Object> usersHashmap=new HashMap<>();
-        usersHashmap.put("username",name);
-        usersHashmap.put("email",email);
-        usersHashmap.put("password",password);
-
-        String key= reference.push().getKey();
-        usersHashmap.put("key",key);
-        reference.child(key).setValue(usersHashmap).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(RegisterActivity.this, "Account created.",
-                        Toast.LENGTH_SHORT).show();
-
-                Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
-                startActivity(intent);
-                finish();
-
-            }
-        });
-
-    }
 }

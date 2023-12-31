@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ecommerceproject.services.UserService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -32,11 +34,9 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText emailTxt,passwordTxt;
     Button loginBtn;
-  //  FirebaseAuth mAuth;
-    FirebaseDatabase database;
-    DatabaseReference reference;
+    FirebaseAuth mAuth;
 
-  /*  @Override
+   @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
@@ -45,9 +45,11 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent=new Intent(getApplicationContext(),HomeActivity.class);
             startActivity(intent);
             finish();
-
         }
-    }*/
+    }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,10 +58,8 @@ public class LoginActivity extends AppCompatActivity {
         emailTxt = findViewById(R.id.emailEdit);
         passwordTxt = findViewById(R.id.passwordEdit);
         loginBtn = findViewById(R.id.loginBtn);
-       // mAuth = FirebaseAuth.getInstance();
         //create instance
-        database=FirebaseDatabase.getInstance();
-        reference=database.getReference("users");
+        mAuth = FirebaseAuth.getInstance();
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 String email,password;
                 email=String.valueOf(emailTxt.getText());
                 password=String.valueOf(passwordTxt.getText());
-                Log.w("TAG", "login email and password :"+ email + "password "+password );
+                // Log.w("TAG", "login email and password :"+ email + "password "+password );
 
                 if (TextUtils.isEmpty(email)){
                     Toast.makeText(LoginActivity.this,"Enter email",Toast.LENGTH_SHORT).show();
@@ -78,30 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this,"Enter password",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                /*
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Toast.makeText(LoginActivity.this, "login succesful.",
-                                            Toast.LENGTH_SHORT).show();
-                                    Intent intent=new Intent(getApplicationContext(),HomeActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w("TAG", "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(LoginActivity.this, "login failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
-                */
-                loginUser(email,password);
-
+                UserService.loginUser(LoginActivity.this,email,password);
 
             }
         });
@@ -123,36 +100,6 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent=new Intent(LoginActivity.this,RegisterActivity.class);
                 //start the registerActivity
                 startActivity(intent);
-            }
-        });
-    }
-
-    private void loginUser(String email, String password) {
-        reference.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // User found in the database
-                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                        String storedPassword = userSnapshot.child("password").getValue(String.class);
-                        if (storedPassword != null && storedPassword.equals(password)) {
-                            // Password matches, authentication successful
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                        } else {
-                            // Password is wrong
-                            Toast.makeText(LoginActivity.this,"Wrong password",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                } else {
-                    // User not found in the database
-                    Toast.makeText(LoginActivity.this," User not found",Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Handle the error, if necessary
             }
         });
     }

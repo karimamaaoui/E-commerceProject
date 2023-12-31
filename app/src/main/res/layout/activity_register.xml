@@ -65,7 +65,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Username"
+                android:text="Username "
                 android:alpha="0.7"
                 android:textStyle="bold"
 
@@ -73,10 +73,12 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
+                android:inputType="textEmailAddress"
                 android:id="@+id/usernameeditview"
                 android:drawableEnd="@drawable/ic_baseline_done_24"
                 />
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
