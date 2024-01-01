@@ -1,4 +1,4 @@
-package com.example.ecommerceproject;
+package com.example.ecommerceproject.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ecommerceproject.Adapters.ProductAdapter;
+import com.example.ecommerceproject.R;
 import com.example.ecommerceproject.models.Product;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;

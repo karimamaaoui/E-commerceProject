@@ -1,4 +1,4 @@
-package com.example.ecommerceproject;
+package com.example.ecommerceproject.fragments;
 
 import android.os.Bundle;
 
@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.ecommerceproject.R;
 import com.example.ecommerceproject.services.UserService;
 
 public class CartFragment extends Fragment {

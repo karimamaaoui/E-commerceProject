@@ -7,6 +7,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
+import com.example.ecommerceproject.fragments.CartFragment;
+import com.example.ecommerceproject.fragments.HomeFragment;
+import com.example.ecommerceproject.fragments.ProductFragment;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -18,7 +21,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_home);
+        setContentView(R.layout.activity_home);
 
         bottomAppBar = findViewById(R.id.bottom_app_bar);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
