@@ -6,13 +6,16 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.GridLayout;
 
 import com.example.ecommerceproject.Adapters.ProductAdapter;
 import com.example.ecommerceproject.models.Product;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +35,7 @@ public class ProductListActivity extends AppCompatActivity {
     MaterialToolbar toolbar;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+    FloatingActionButton fabAddProduct;
 
 
 
@@ -48,6 +52,21 @@ public class ProductListActivity extends AppCompatActivity {
 
         // Set up the navigation drawer
         DrawerUtil.setupDrawer(this, toolbar, drawerLayout, navigationView);
+
+        // Find the FloatingActionButton by ID
+        fabAddProduct = findViewById(R.id.fabAddProduct);
+
+        // Set an OnClickListener for the FAB
+        fabAddProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // When the FAB is clicked, start the ProductActivity
+                Intent intent = new Intent(ProductListActivity.this, ProductActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
 
         try{
         recyclerView=findViewById(R.id.recyclerviewProduct);

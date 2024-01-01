@@ -3,20 +3,20 @@
 
     <item
         android:id="@+id/menu_home"
-        android:title="Share"
-        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="Home"
+        android:icon="@drawable/ic_baseline_home_24"
         />
 
     <item
         android:id="@+id/menu_profile"
         android:title="Product"
-        android:icon="@drawable/ic_baseline_settings_24"
+        android:icon="@drawable/ic_baseline_list_alt_24"
         />
 
     <item
         android:id="@+id/menu_hello"
-        android:title="Category"
-        android:icon="@drawable/ic_baseline_list_alt_24"
+        android:title="Card"
+        android:icon="@drawable/ic_baseline_add_shopping_cart_24"
         />
 
 </menu>

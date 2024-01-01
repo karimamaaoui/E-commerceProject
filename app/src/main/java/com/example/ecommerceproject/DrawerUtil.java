@@ -47,8 +47,8 @@ public class DrawerUtil {
                         activity.finish();
                         break;
 
-                    case R.id.nav_category:
-                        Toast.makeText(activity, "Category is clicked", Toast.LENGTH_SHORT).show();
+                    case R.id.nav_trash:
+                        Toast.makeText(activity, "Product List is clicked", Toast.LENGTH_SHORT).show();
                         Intent intentCateogry = new Intent(activity, ProductListActivity.class);
                         activity.startActivity(intentCateogry);
                         activity.finish();
@@ -59,12 +59,6 @@ public class DrawerUtil {
                         UserService.logout(activity);
                         break;
 
-                    case R.id.nav_trash:
-                        Toast.makeText(activity, "List is clicked", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(activity, ProductActivity.class);
-                        activity.startActivity(intent);
-                        activity.finish();
-                        break;
 
                     default:
                         return true;

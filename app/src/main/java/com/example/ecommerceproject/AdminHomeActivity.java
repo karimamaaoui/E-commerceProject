@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AdminHomeActivity extends AppCompatActivity {
@@ -37,7 +36,7 @@ public class AdminHomeActivity extends AppCompatActivity {
                     selectedFragment = new ProductFragment();
                     break;
                 case R.id.menu_hello:
-                    selectedFragment = new CategoryFragment();
+                    selectedFragment = new CartFragment();
                     break;
             }
 

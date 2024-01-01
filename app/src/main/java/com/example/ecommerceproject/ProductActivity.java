@@ -3,17 +3,21 @@ package com.example.ecommerceproject;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.example.ecommerceproject.models.Product;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DatabaseReference;
@@ -54,6 +58,8 @@ public class ProductActivity extends AppCompatActivity {
         arrowprod=findViewById(R.id.arrowprod);
         savebtn=findViewById(R.id.savebtn);
 
+
+
         //set up a click listener go back button
         arrowprod.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +80,7 @@ public class ProductActivity extends AppCompatActivity {
             }
         });
 
+
         // Set an OnClickListener for the "Save" button
         savebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +93,7 @@ public class ProductActivity extends AppCompatActivity {
                 String prodCategory = categoryText.getText().toString().trim();
 
                 // Check if the necessary fields are not empty and an image is selected
+
                 if (!TextUtils.isEmpty(prodName)  && !TextUtils.isEmpty(prodPrice) &&
                         !TextUtils.isEmpty(prodDescription) && !TextUtils.isEmpty(prodCategory)
                         && !TextUtils.isEmpty(prodPrice) &&  image != null) {
@@ -94,6 +102,7 @@ public class ProductActivity extends AppCompatActivity {
                 } else {
                     // Display message if required fields are empty
                     Toast.makeText(ProductActivity.this, "Please enter prod name and select an image", Toast.LENGTH_SHORT).show();
+
                 }
 
             }
@@ -101,6 +110,7 @@ public class ProductActivity extends AppCompatActivity {
 
 
     }
+
 
 
     @Override
@@ -122,6 +132,7 @@ public class ProductActivity extends AppCompatActivity {
             Toast.makeText(this, "Image selected", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 
     // Method to open the gallery

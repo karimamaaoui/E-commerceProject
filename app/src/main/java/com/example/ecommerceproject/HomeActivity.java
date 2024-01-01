@@ -1,64 +1,57 @@
 package com.example.ecommerceproject;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
-import com.example.ecommerceproject.services.UserService;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private TextView textView;
-
-    private MaterialToolbar toolbar;
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
     BottomAppBar bottomAppBar;
     BottomNavigationView bottomNavigationView;
-    FloatingActionButton fab;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_admin_home);
 
-        textView = findViewById(R.id.textView2);
+        bottomAppBar = findViewById(R.id.bottom_app_bar);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        toolbar = findViewById(R.id.topAppbar);
-        drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.navigation_view);
+        bottomAppBar.setBackground(null);
 
-        setSupportActionBar(toolbar);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            Fragment selectedFragment = null;
 
-        // Set up the navigation drawer
-        DrawerUtil.setupDrawer(this, toolbar, drawerLayout, navigationView);
+            switch (item.getItemId()) {
+                case R.id.menu_home:
+                    selectedFragment = new HomeFragment();
+                    break;
+                case R.id.menu_profile:
+                    selectedFragment = new ProductFragment();
+                    break;
+                case R.id.menu_hello:
+                    selectedFragment = new CartFragment();
+                    break;
+            }
 
+            if (selectedFragment != null) {
+                replaceFragment(selectedFragment);
+            }
 
+            return true;
+        });
+    }
 
-
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.commit();
     }
 }

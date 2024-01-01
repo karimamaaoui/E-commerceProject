@@ -47,12 +47,12 @@ public class UserService {
                                     Toast.makeText(context, "Login successful.", Toast.LENGTH_SHORT).show();
 
                                     if ("admin".equals(userRole)) {
-                                        // Admin user, navigate to DashboardActivity
-                                        Intent intent = new Intent(context, AdminHomeActivity.class);
+                                        // Admin user, navigate to ProductListActivity
+                                        Intent intent = new Intent(context, ProductListActivity.class);
                                         context.startActivity(intent);
                                     } else if ("client".equals(userRole)) {
                                         // Client user, navigate to HomeActivity
-                                        Intent intent = new Intent(context, ProductListActivity.class);
+                                        Intent intent = new Intent(context, HomeActivity.class);
                                         context.startActivity(intent);
                                     }
 
