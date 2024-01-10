@@ -28,6 +28,7 @@ import java.util.List;
 
 public class ProductListActivity extends AppCompatActivity {
 
+    // Declaration of variables
     RecyclerView recyclerView;
     List<Product> productList;
     DatabaseReference reference;
@@ -43,6 +44,7 @@ public class ProductListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_list);
+        // Initialization of views
 
         toolbar = findViewById(R.id.topAppbar);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -69,15 +71,16 @@ public class ProductListActivity extends AppCompatActivity {
 
 
         try{
+        // Initializing RecyclerView
         recyclerView=findViewById(R.id.recyclerviewProduct);
         GridLayoutManager gridLayoutManager=new GridLayoutManager(ProductListActivity.this,1);
         recyclerView.setLayoutManager(gridLayoutManager);
-
+        // Initializing the list of products and the adapter
         productList=new ArrayList<>();
 
         ProductAdapter productAdapter=new ProductAdapter(ProductListActivity.this,productList);
         recyclerView.setAdapter(productAdapter);
-
+        // Setting up Firebase Database reference and ValueEventListener
         reference= FirebaseDatabase.getInstance().getReference("products");
         valueEventListener=reference.addValueEventListener(new ValueEventListener() {
             @Override

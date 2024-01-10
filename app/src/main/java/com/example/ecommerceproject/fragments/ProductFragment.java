@@ -42,12 +42,6 @@ public class ProductFragment extends Fragment {
 
         // Initialize views
         recyclerView = view.findViewById(R.id.recyclerviewProduct);
-     //   toolbar = view.findViewById(R.id.topAppbar);
-      //  drawerLayout = view.findViewById(R.id.drawer_layout);
-       // navigationView = view.findViewById(R.id.navigation_view);
-
-        // Set up the navigation drawer
-       // DrawerUtil.setupDrawer(requireActivity(), toolbar, drawerLayout, navigationView);
 
         // Set up the RecyclerView
         GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 1);

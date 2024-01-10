@@ -25,14 +25,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class UserService {
-
+    // Method for logging in a user
     public static void loginUser(Context context, String email, String password) {
+        // Firebase Authentication
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            // If login is successful
+
                             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            // Check user role in the Firebase Realtime Database
                             DatabaseReference roleRef = FirebaseDatabase.getInstance().getReference("users")
                                     .child(userId)
                                     .child("role");
@@ -41,9 +45,9 @@ public class UserService {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     String userRole = dataSnapshot.getValue(String.class);
-
-                                    // Sign in success, update UI with the signed-in user's information
                                     Toast.makeText(context, "Login successful.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "Login successful.", Toast.LENGTH_SHORT).show();
+                                    // Handle the role and navigate to the appropriate activity
 
                                     if ("admin".equals(userRole)) {
                                         // Admin user, navigate to ProductListActivity
@@ -54,9 +58,11 @@ public class UserService {
                                         Intent intent = new Intent(context, HomeActivity.class);
                                         context.startActivity(intent);
                                     }
-
+                                    // Finish the current activity
                                     if (context instanceof AppCompatActivity) {
                                         ((AppCompatActivity) context).finish();
+                                        // Save user email in SharedPreferences
+
                                         saveData(context, email);
                                     }
                                 }
@@ -75,8 +81,7 @@ public class UserService {
                 });
     }
 
-
-
+    // Method for saving user data in SharedPreferences
     private static void saveData(Context context, String email) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("logindata", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -91,7 +96,7 @@ public class UserService {
         return sharedPreferences.getString("useremail", null);
     }
 
-
+    // Method for adding a new user to the Firebase Authentication and Realtime Database
     public static void addUserToDb(Context context, String email, String password, String username)
     {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
@@ -99,8 +104,10 @@ public class UserService {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            // If user creation is successful
 
+                            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            // Set user details in the Realtime Database
                             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
                             ref.child(userId).child("role").setValue("client");
                             ref.child(userId).child("email").setValue(email);
@@ -110,8 +117,6 @@ public class UserService {
 
                          //   Log.w("TAG", "EMAOL FROM REGISTER LINE 110  " + email);
 
-
-                            // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(context, "Account created.", Toast.LENGTH_SHORT).show();
 
                         }
@@ -125,12 +130,16 @@ public class UserService {
 
     // logout method
     public static void logout(Context context) {
+        // Firebase sign out
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
+        // Finish the current activity
         if (context instanceof AppCompatActivity) {
             ((AppCompatActivity) context).finish();
         }
+        // Clear SharedPreferences
+
         SharedPreferences sharedPreferences= context.getSharedPreferences("logindata",Context.MODE_PRIVATE);
         sharedPreferences.edit().clear().commit();
 

@@ -40,16 +40,6 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-       //FirebaseUser currentUser = mAuth.getCurrentUser();
-      /*  if(currentUser != null){
-            Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
-            startActivity(intent);
-            finish();
-            Log.w("TAG", "currentUser FROM REGISTER LINE 47  " + currentUser);
-
-        }*/
-
 
     }
 
@@ -93,9 +83,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                 // Call the addUserToDb method from UserService
                 UserService.addUserToDb(RegisterActivity.this, email, password,username);
+                //retrieve the user's email from SharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences("logindata", Context.MODE_PRIVATE);
                 String userEmail = sharedPreferences.getString("useremail", "");
                 Log.w("TAG", "user FROM REGISTER LINE 110  " + userEmail.isEmpty());
+                //If the user's email is empty, you navigate to the LoginActivity
                 if(userEmail.isEmpty()){
                     Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
                     startActivity(intent);
